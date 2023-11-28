@@ -32,23 +32,30 @@ userInput.addEventListener("click", async () => {
   console.log("HERE");
   await stworz();
 });
-
+// KONSTRUKTOR UŻYTKOWNIKA
+class user_Constructor {
+  constructor(login, password) {
+    this.login = login;
+    this.password = password;
+  }
+}
+// FUNKCJA PRZESYŁAJĄCA DANE STWORZONEGO UŻYTKOWNIKA DO SERWERA
 async function stworz() {
   var log = document.querySelector("#login").value;
   var has = document.querySelector("#haslo").value;
   var phas = document.querySelector("#phaslo").value;
   if (phas == has) {
     // const myLog = { login: log, haslo: has };
-
-    document.querySelector("#wstaw").innerHTML = "Twoj login to " + log;
+    const created_user = new user_Constructor(log, has);
+    document.querySelector("#wstaw").innerHTML =
+      "Twoj login to " + created_user.login;
     const response = await fetch("http://localhost:3000/users/createUser", {
       method: "POST", // or 'PUT'
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        log,
-        has,
+        created_user,
       }),
       mode: "no-cors",
     });
@@ -95,8 +102,8 @@ test.addEventListener("click", async (event) => {
   const userTest = await fetch("http://localhost:3000/users/logins2");
   const myTest = await userTest.json();
   // await logging(JSON.parse(myTest));
-  console.log(myTest);
-  // for (const myTester of myTest) {
-  //   console.log(myTester);
-  // }
+  // console.log(JSON.parse(myTest));
+  for (const myTester of JSON.parse(myTest)) {
+    console.log(myTester);
+  }
 });
