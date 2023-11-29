@@ -49,15 +49,14 @@ async function stworz() {
     const created_user = new user_Constructor(log, has);
     document.querySelector("#wstaw").innerHTML =
       "Twoj login to " + created_user.login;
+    const contextBody = JSON.stringify(created_user);
     const response = await fetch("http://localhost:3000/users/createUser", {
       method: "POST", // or 'PUT'
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        created_user,
-      }),
-      mode: "no-cors",
+      body: contextBody,
+      mode: "cors",
     });
     // const respone = await fetch("http://localhost:3000/users/userCreator", {
     //   method: "POST",
