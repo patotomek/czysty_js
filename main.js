@@ -73,7 +73,7 @@ async function stworz() {
 const main_page = document.querySelector("#log-in");
 main_page.addEventListener("click", async (event) => {
   console.log("working");
-  const userResponse = await fetch("http://localhost:3000/users/logins");
+  const userResponse = await fetch("http://localhost:3000/users/logins2");
   const myUsers = await userResponse.json();
   await logging(JSON.parse(myUsers));
   // console.log(myUsers);
@@ -82,27 +82,61 @@ main_page.addEventListener("click", async (event) => {
 async function logging(myUsers) {
   var log1 = document.querySelector("#login1").value;
   var has1 = document.querySelector("#haslo1").value;
+  const userpaswds = myUsers.find((user) => {
+    return user.login === log1;
+  });
+  console.log(userpaswds);
   for (const myUser of myUsers) {
-    console.log(myUser);
-    if ((myUser.username = log1)) {
-      if ((myUser.password = has1)) {
-        document.querySelector("#wstaw2").innerHTML =
-          "Witam uzytkowniku " + log1;
-      }
-    } else {
+    if (userpaswds.haslo != has1 || userpaswds.login != log1) {
       document.querySelector("#wstaw2").innerHTML =
         "Nie poprawne hasło lub nazwa użytkownika";
+    } else {
+      document.querySelector("#wstaw2").innerHTML = "Witam uzytkowniku " + log1;
     }
   }
+
+  // for (const myUser in myUsers) {
+  //   // console.log(myUser.username);
+  //   switch (log1 && has1) {
+  //     case myUser.username && myUser.password:
+  //       document.querySelector("#wstaw2").innerHTML =
+  //         "Witam uzytkowniku " + log1;
+  //     default:
+  //       document.querySelector("#wstaw2").innerHTML =
+  //         "Nie poprawne hasło lub nazwa użytkownika";
+  //       break;
+  //   }
+  // }
 }
-const test = document.querySelector("#spr");
-test.addEventListener("click", async (event) => {
-  console.log("working");
-  const userTest = await fetch("http://localhost:3000/users/logins2");
-  const myTest = await userTest.json();
-  // await logging(JSON.parse(myTest));
-  // console.log(JSON.parse(myTest));
-  for (const myTester of JSON.parse(myTest)) {
-    console.log(myTester);
-  }
+// const userInfo = document.querySelector("#user_info");
+// var selectedUser = document.querySelector("#selected_user").value;
+// const test = document.querySelector("#spr");
+// userInfo.addEventListener("click", async () => {
+//   await checkUser(myTester);
+// });
+// test.addEventListener("click", async (event) => {
+//   console.log("working");
+//   const userTest = await fetch("http://localhost:3000/users/logins2");
+//   const myTest = await userTest.json();
+//   // await logging(JSON.parse(myTest));
+//   // console.log(JSON.parse(myTest));
+//   for (const myTester of JSON.parse(myTest)) {
+//     console.log(myTester);
+//     // async function checkUser(myTester) {
+//     //   if ((myTester[1] = selectedUser)) {
+//     //     console.log(`hi ${selectedUser}`);
+//     //   }
+//     // }
+//   }
+// });
+const deleteUser = document.querySelector("#delete_user");
+deleteUser.addEventListener("click", async () => {
+  await deleteThisUser();
 });
+async function deleteThisUser() {
+  var thisUser = document.querySelector("#here").value;
+  console.log(thisUser);
+  const response = await fetch(`http://localhost:3000/users/${thisUser}`, {
+    method: "DELETE", // or 'PUT'
+  });
+}
